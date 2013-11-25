@@ -11,6 +11,22 @@ public class Club extends AbstractEntity {
 
 	private String name;
 	
+	private String address;
+	
+	private String postCode;
+	
+	private String city;
+	
+	private String affiliation;
+	
+	private String email1;
+	
+	private String email2;
+	
+	private String phonenumber1;
+	
+	private String phonenumber2;
+	
 	@OneToMany
 	private Set<Player> players = new HashSet<Player>();
 
@@ -59,6 +75,70 @@ public class Club extends AbstractEntity {
 		} else if (!players.equals(other.players))
 			return false;
 		return true;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getAffiliation() {
+		return affiliation;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public String getEmail1() {
+		return email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public String getPhonenumber1() {
+		return phonenumber1;
+	}
+
+	public void setPhonenumber1(String phonenumber1) {
+		this.phonenumber1 = phonenumber1;
+	}
+
+	public String getPhonenumber2() {
+		return phonenumber2;
+	}
+
+	public void setPhonenumber2(String phonenumber2) {
+		this.phonenumber2 = phonenumber2;
 	}
 	
 }
