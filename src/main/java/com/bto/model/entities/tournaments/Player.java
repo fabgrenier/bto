@@ -1,11 +1,17 @@
-package com.bto.model;
+package com.bto.model.entities.tournaments;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Player extends AbstractEntity {
@@ -31,11 +37,17 @@ public class Player extends AbstractEntity {
 	//niveau de jeu
 	private String level;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.DETACH)
 	private Club club;
 	
-	@OneToMany
-	private ArrayList<DoubleTeam> teams = new ArrayList<>();
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "firstPlayer")
+	private Set<DoubleTeam> player1OfADoubleteam = new HashSet<>();
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "secondPlayer")
+	private Set<DoubleTeam> player2OfADoubleteam = new HashSet<>();
+
+	@Transient
+	private List<DoubleTeam> doubleTeams;
 
 	@Override
 	public int hashCode() {
@@ -90,14 +102,16 @@ public class Player extends AbstractEntity {
 		this.birthday = birthday;
 	}
 
-	public ArrayList<DoubleTeam> getTeams() {
-		return teams;
+	@Transient
+	public List<DoubleTeam> getDoubleTeams() {
+		if(doubleTeams == null){
+			doubleTeams = new ArrayList<DoubleTeam>(player1OfADoubleteam);
+			doubleTeams.addAll(player2OfADoubleteam);
+		}
+		return doubleTeams;
 	}
 
-	public void setTeams(ArrayList<DoubleTeam> teams) {
-		this.teams = teams;
-	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -176,6 +190,44 @@ public class Player extends AbstractEntity {
 
 	public void setClub(Club club) {
 		this.club = club;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [id ="+id+", firstName=" + firstName + ", lastName=" + lastName
+				+ ", club=" + club + ", doubleteams=" + teamToString() + "]";
+	}
+
+	private String teamToString() {
+		StringBuilder toString = new StringBuilder();
+		for(DoubleTeam doubleTeam : getPlayer1OfADoubleteam()){
+			toString.append(doubleTeam.toString());
+			toString.append(", ");
+		}
+		for(DoubleTeam doubleTeam : getPlayer2OfADoubleteam()){
+			toString.append(doubleTeam.toString());
+			toString.append(", ");
+		}
+		if(toString.length() > 0) {
+			toString.delete(toString.length() - 2, toString.length() - 1);
+		}
+		return toString.toString();
+	}
+
+	public void setPlayer1OfADoubleteam(Set<DoubleTeam> player1OfADoubleteam) {
+		this.player1OfADoubleteam = player1OfADoubleteam;
+	}
+
+	public void setPlayer2OfADoubleteam(Set<DoubleTeam> player2OfADoubleteam) {
+		this.player2OfADoubleteam = player2OfADoubleteam;
+	}
+
+	public Set<DoubleTeam> getPlayer1OfADoubleteam() {
+		return player1OfADoubleteam;
+	}
+
+	public Set<DoubleTeam> getPlayer2OfADoubleteam() {
+		return player2OfADoubleteam;
 	}
 
 }

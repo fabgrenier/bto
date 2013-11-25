@@ -8,14 +8,17 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
  
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-            <property name="hibernate.show_sql" value="false"/>
-            <property name="hibernate.format_sql" value="false"/>
-            <property name="hibernate.connection.url" value="jdbc:h2:mem:test_db"/>
+        	<!-- TODO : profil maven de dev + détection environnement windows ?  -->
+            <property name="hibernate.connection.url" value="jdbc:h2:~/.bto/test_db"/>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.connection.username" value="sa}"/>
             <property name="hibernate.connection.password" value=""/>
+        
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.archive.autodetection" value="class" />
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
  

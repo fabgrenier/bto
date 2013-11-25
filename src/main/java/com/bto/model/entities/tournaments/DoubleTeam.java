@@ -1,8 +1,10 @@
-package com.bto.model;
+package com.bto.model.entities.tournaments;
 
 import java.sql.Time;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -16,10 +18,10 @@ public class DoubleTeam extends AbstractEntity {
 	//heure d'arrivée au tournoi
 	private Time arrivalTime; 
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Player firstPlayer;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private Player secondPlayer;
 
 	public String getName() {
@@ -109,7 +111,7 @@ public class DoubleTeam extends AbstractEntity {
 
 	@Override
 	public String toString() {
-		return "DoubleTeam [name=" + name + ", type=" + type + ", firstPlayer="
+		return "DoubleTeam [id ="+id+", name=" + name + ", type=" + type + ", firstPlayer="
 				+ firstPlayer + ", secondPlayer=" + secondPlayer + "]";
 	}
 

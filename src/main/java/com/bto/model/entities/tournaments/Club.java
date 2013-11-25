@@ -1,9 +1,11 @@
-package com.bto.model;
+package com.bto.model.entities.tournaments;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -27,8 +29,8 @@ public class Club extends AbstractEntity {
 	
 	private String phonenumber2;
 	
-	@OneToMany
-	private Set<Player> players = new HashSet<Player>();
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "club")
+	private Set<Player> players = new HashSet<>();
 
 	public String getName() {
 		return name;

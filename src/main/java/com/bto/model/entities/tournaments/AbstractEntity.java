@@ -1,4 +1,4 @@
-package com.bto.model;
+package com.bto.model.entities.tournaments;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public abstract class AbstractEntity {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	protected Long id;
 	
 	@Version
 	private Integer version;

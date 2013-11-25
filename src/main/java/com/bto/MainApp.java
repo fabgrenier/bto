@@ -6,14 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bto.model.Player;
+import com.bto.model.entities.tournaments.DoubleTeam;
+import com.bto.model.entities.tournaments.Player;
+import com.bto.model.persistence.EntityManagerUtil;
 
 public class MainApp extends Application {
 
@@ -25,13 +23,41 @@ public class MainApp extends Application {
 
     public void start(Stage stage) throws Exception {
     	
-    	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory( "local" );
-    	EntityManager entityManager = entityManagerFactory.createEntityManager();
+    	EntityManagerUtil.beginTransaction();
     	
-    	entityManager.getTransaction().begin();
-    	entityManager.persist(new Player());
-    	entityManager.getTransaction().commit();
-    	entityManager.close();
+/*    	Player player1 = new Player();
+
+    	Player player2 = new Player();
+    	Player player3 = new Player();
+    	Player player4 = new Player();
+    	
+    	DoubleTeam doubleTeam1 = new DoubleTeam();
+    	DoubleTeam doubleTeam2 = new DoubleTeam();
+    	
+    	player1.getPlayer1OfADoubleteam().add(doubleTeam1);
+    	player2.getPlayer2OfADoubleteam().add(doubleTeam1);
+    	
+    	player3.getPlayer1OfADoubleteam().add(doubleTeam2);
+    	player1.getPlayer2OfADoubleteam().add(doubleTeam2);
+    	    	
+    	EntityManagerUtil.save(player2);
+    	EntityManagerUtil.save(player1);
+    	EntityManagerUtil.save(player3);
+    	*/
+    	
+    	for(int i = 0; i< 1000; i++)
+    	{
+    		EntityManagerUtil.save(new Player());
+    	}
+    	
+    	EntityManagerUtil.commit();
+    	EntityManagerUtil.closeEntityManager();
+    	EntityManagerUtil.beginTransaction();
+    	DoubleTeam doubleTeamFromdb = EntityManagerUtil.getEntityManager().find(DoubleTeam.class, 1l);
+    	System.out.println(doubleTeamFromdb.toString());
+    	
+    	EntityManagerUtil.commit();
+    	EntityManagerUtil.closeEntityManager();
 
         log.info("Starting Hello JavaFX and Maven demonstration application");
 
